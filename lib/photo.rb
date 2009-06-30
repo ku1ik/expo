@@ -1,6 +1,3 @@
-#!/usr/bin/ruby
-require 'fileutils'
-
 class Photo
   # attr_accessor :styles
   attr_reader :src_mtime
@@ -38,27 +35,5 @@ class Photo
   
 end
 
-class Style
-  def initialize(photo, dir, geometry)
-    @photo = photo
-    @dir = dir
-    @geometry = geometry
-  end
-  
-  def needs_update?
-    @photo.src_mtime > File.mtime(@dir)
-  rescue Errno::ENOENT
-    true
-  end
-  
-  def update!
-    FileUtils.mkdir_p(@dir) unless File.directory?(@dir)
-    dest_path = File.join(@dir, @photo.src_name.gsub(/\.[^\.]+$/, ".jpg"))
-    cmd = "convert #{@photo.src_path} -thumbnail #{@geometry} #{dest_path}"
-    puts "running: #{cmd}"
-    `#{cmd}`
-  end
-end
-
-p = Photo.new(ARGV[0], ARGV[1])
-p.update!
+# p = Photo.new(ARGV[0], ARGV[1])
+# p.update!
