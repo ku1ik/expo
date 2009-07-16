@@ -1,1 +1,1 @@
-%w(expo album category photo style).each { |f| require "lib/#{f}" } 
+%w(expo directory album category photo style).each { |f| require "lib/#{f}" } 

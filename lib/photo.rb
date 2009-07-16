@@ -4,7 +4,8 @@ class Photo
   attr_reader :src_path
   attr_reader :src_name
   
-  def initialize(src_path, dest_dir)
+  def initialize(album, src_path)
+    dest_dir = File.join(album.category.expo.output_dir, album.category.dirname, album.dirname)
     @src_path = File.expand_path(src_path)
     @src_name = File.basename(@src_path)
     @dest_dir = File.expand_path(dest_dir)
