@@ -16,6 +16,7 @@ class Style
   
   def update!
     return unless needs_update?
+    @photo.mark_as_dirty!
     print "    [P] #{@photo.src_name.color(:yellow)}, updating style #{@geometry.color(:magenta)}..."
     FileUtils.mkdir_p(@dir) unless File.directory?(@dir)
     cmd = "convert #{@photo.src_path} -thumbnail #{@geometry} #{@path}"

@@ -1,9 +1,15 @@
 class Album < Directory
   attr_reader :category
+  attr_reader :html_path
   
   def initialize(cat, cfg_path)
     @category = cat
     super(cfg_path)
+    @html_path = File.join(cat.dirname, dirname, "index.html")
+  end
+  
+  def expo
+    category.expo
   end
 
   def photos
@@ -16,4 +22,9 @@ class Album < Directory
     end
   end
   
+  def mark_as_dirty!
+    @dirty = true
+    category.mark_as_dirty!
+  end
+
 end

@@ -9,8 +9,8 @@ namespace :expo do
 
   desc "Update albums"
   task :update do
-    puts "Updating..."
     Expo.new(File.expand_path('.'), File.expand_path('./.site/output/images')).update!
+    puts "Finished."
   end
 
   desc "Generate site"
