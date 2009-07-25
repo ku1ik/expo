@@ -7,7 +7,7 @@ class Category < Directory
   end
   
   def albums
-    @albums ||= Dir.glob(@path + "/**/.gallery").map { |album_cfg| Album.new(self, album_cfg) }
+    @albums ||= Dir.glob(@path + "/**/album.yml").map { |album_cfg| Album.new(self, album_cfg) }
   end
   
 end

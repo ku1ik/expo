@@ -10,4 +10,10 @@ class Album < Directory
     @photos ||= Dir.glob(@path + "/**/*.JPG").map { |file| Photo.new(self, file) }
   end
   
+  def update!
+    photos.each do |photo|
+      photo.update!
+    end
+  end
+  
 end

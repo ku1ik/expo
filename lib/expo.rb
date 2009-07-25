@@ -9,20 +9,21 @@ class Expo
   end
   
   def categories
-    @categories ||= Dir.glob(@root_dir + "/**/.category").map { |cat_cfg| Category.new(self, cat_cfg) }
+    @categories ||= Dir.glob(@root_dir + "/**/category.yml").map { |cat_cfg| Category.new(self, cat_cfg) }
+  end
+  
+  def inspect!(with_update=false)
+    categories.each do |c|
+      puts "[C] #{c.name.color(:blue)} (#{c.relative_path})"
+      c.albums.each do |album|
+        puts "  [A] #{album.name.color(:green)} (#{album.relative_path}, #{album.photos.size} photos)"
+        album.update! if with_update
+      end
+    end
   end
   
   def update!
-    categories.each do |c|
-      puts "Category '#{c.name}' at '#{c.path}'"
-      c.albums.each do |album|
-        puts "Album '#{album.name}' at '#{album.path}'"
-        album.photos.each do |photo|
-          puts "Photo '#{photo.src_name}'"
-          photo.update!
-        end
-      end
-    end
+    inspect!(true)
   end
   
 end

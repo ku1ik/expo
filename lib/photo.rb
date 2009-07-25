@@ -1,5 +1,4 @@
 class Photo
-  # attr_accessor :styles
   attr_reader :src_mtime
   attr_reader :src_path
   attr_reader :src_name
@@ -14,27 +13,9 @@ class Photo
     @styles = @style_defs.map { |name, geo| Style.new(self, File.join(@dest_dir, name.to_s), geo) }
   end
   
-  def needs_update?
-    @styles_to_update = @styles.select { |s| s.needs_update? }
-    @styles_to_update.size > 0
-  end
-  
-  # useful for 'pretend' mode
-  def styles_to_update
-    needs_update? unless @styles_to_update
-    @styles_to_update
-  end
-  
   def update!
-    if needs_update?
-      @styles_to_update.each { |style| style.update! }
-      true
-    else
-      false
-    end
+    @styles.each { |style| style.update! }
   end
   
 end
 
-# p = Photo.new(ARGV[0], ARGV[1])
-# p.update!
