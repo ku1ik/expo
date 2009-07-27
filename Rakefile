@@ -4,12 +4,16 @@ namespace :expo do
   desc "Inspect albums"
   task :inspect do
     puts "Inspecting..."
-    Expo.new(File.expand_path('.'), File.expand_path('./.site/output/images')).inspect!
+    Expo.root = File.expand_path('.')
+    Expo.output_dir = File.expand_path('./.site/output/images')
+    Expo.inspect!
   end
 
   desc "Update albums"
   task :update do
-    Expo.new(File.expand_path('.'), File.expand_path('./.site/output/images')).update!
+    Expo.root = File.expand_path('.')
+    Expo.output_dir = File.expand_path('./.site/output/images')
+    Expo.update!
     puts "Finished."
   end
 

@@ -1,13 +1,11 @@
-class Photo
+class Photo < Entity
   attr_reader :src_mtime
   attr_reader :src_path
   attr_reader :src_name
   attr_reader :album
-  attr_accessor :dirty
-  attr_reader :html_path
   
   def initialize(album, src_path)
-    dest_dir = File.join(album.category.expo.output_dir, album.category.dirname, album.dirname)
+    dest_dir = File.join(Expo.output_dir, album.category.dirname, album.dirname)
     @album = album
     @src_path = File.expand_path(src_path)
     @src_name = File.basename(@src_path)
@@ -18,12 +16,12 @@ class Photo
     @html_path = File.join(album.category.dirname, album.dirname, src_name.gsub(/\.[^\.]+$/, ".html"))
   end
   
-  def update!
-    @styles.each { |style| style.update! }
+  def update_photo!
+    @styles.each { |style| style.update_photo! }
   end
   
   def mark_as_dirty!
-    @dirty = true
+    super
     album.mark_as_dirty!
   end
   

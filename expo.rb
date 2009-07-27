@@ -1,2 +1,2 @@
 require 'rainbow'
-%w(expo directory album category photo style).each { |f| require "lib/#{f}" } 
+%w(entity home expo album category photo style).each { |f| require "lib/#{f}" } 

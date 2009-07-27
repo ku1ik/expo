@@ -1,46 +1,51 @@
 #!/usr/bin/ruby
 
 class Expo
-  attr_reader :root_dir
+  # attr_reader :root_dir
   attr_reader :output_dir
-  attr_accessor :dirty
-  attr_reader :html_path
   
-  def initialize(root_dir, output_dir)
-    @root_dir = root_dir
-    @output_dir = output_dir
-    @html_path = "index.html"
+  def self.root=(path)
+    @@root = path
   end
   
-  def mark_as_dirty!
-    @dirty = true
-  end
-
-  def categories
-    @categories ||= Dir.glob(@root_dir + "/**/category.yml").map { |cat_cfg| Category.new(self, cat_cfg) }
+  def self.root
+    @@root
   end
   
-  def inspect!(with_update=false)
-    categories.each do |c|
-      puts "[C] #{c.name.color(:blue)} (#{c.relative_path})"
-      c.albums.each do |album|
-        puts "  [A] #{album.name.color(:green)} (#{album.relative_path}, #{album.photos.size} photos)"
-        album.update! if with_update
-      end
-    end
+  def self.output_dir=(path)
+    @@output_dir = path
   end
   
-  def update!
-    puts "Updating photos..."
-    inspect!(true)
-    puts "Updating pages..."
+  def self.output_dir
+    @@output_dir
+  end
+  
+  #def initialize(output_dir)
+  #  @output_dir = output_dir
+  #  @home = Home.new(self)
+  #end
+  
+  def self.update!
+    @@home = Home.new(@@root)
+    update_photos!
     update_pages!
   end
   
-  def update_pages!
+  # def inspect!(with_update=false)
+    # @home.update_photos!
+  # end
+  
+  def self.update_photos!
+    puts "Updating photos..."
+    # inspect!(true)
+    @@home.update_photos!
+  end
+  
+  def self.update_pages!
+    puts "Updating pages..."
     puts "dirty pages:"
-    puts html_path if dirty
-    categories.each do |c|
+    puts @@home.html_path if @@home.dirty
+    @@home.categories.each do |c|
       puts c.html_path if c.dirty
       c.albums.each do |a|
         puts a.html_path if a.dirty

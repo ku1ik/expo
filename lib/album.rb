@@ -1,6 +1,5 @@
-class Album < Directory
+class Album < Entity
   attr_reader :category
-  attr_reader :html_path
   
   def initialize(cat, cfg_path)
     @category = cat
@@ -16,14 +15,12 @@ class Album < Directory
     @photos ||= Dir.glob(@path + "/**/*.JPG").map { |file| Photo.new(self, file) }
   end
   
-  def update!
-    photos.each do |photo|
-      photo.update!
-    end
+  def update_photos!
+    photos.each { |photo| photo.update_photo! }
   end
   
   def mark_as_dirty!
-    @dirty = true
+    super
     category.mark_as_dirty!
   end
 
